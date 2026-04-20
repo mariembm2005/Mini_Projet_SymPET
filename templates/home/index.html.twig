@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<style>
+    body {
+        background: #fafbff;
+    }
+
+    .hero {
+        background: linear-gradient(135deg, #ffe6f0, #e6f7ff, #f3e8ff);
+        border-radius: 22px;
+        padding: 50px;
+    }
+
+    .feature-card {
+        border: none;
+        border-radius: 20px;
+        transition: all 0.35s ease;
+        background: #ffffff;
+        box-shadow: 0 8px 22px rgba(255, 105, 180, 0.12);
+        height: 100%;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 18px 40px rgba(123, 104, 238, 0.18);
+    }
+
+    .icon {
+        font-size: 44px;
+    }
+
+    .soft-title {
+        font-weight: 800;
+        color: #3b2f63;
+    }
+
+    .btn-primary-custom {
+        background: linear-gradient(135deg, #ff6fae, #a78bfa);
+        border: none;
+        border-radius: 35px;
+        padding: 12px 26px;
+        transition: 0.3s;
+    }
+
+    .btn-primary-custom:hover {
+        opacity: 0.9;
+        transform: scale(1.05);
+    }
+
+    p {
+        color: #4b5563;
+    }
+</style>
+
+<div class="container mt-5">
+
+    <div class="hero mb-5">
+        <h1 class="soft-title">Bienvenue sur SymPet 🐾</h1>
+        <p class="fs-5">
+            SymPet est une plateforme e-commerce moderne dédiée aux animaux domestiques.
+            Elle propose des produits de qualité pour chiens, chats et autres compagnons, avec une expérience d’achat simple, rapide et sécurisée.
+        </p>
+        <a href="#" class="btn btn-primary-custom text-white">Découvrir les produits</a>
+    </div>
+
+    <div class="row text-center g-4">
+
+        <div class="col-md-4 d-flex">
+            <div class="card feature-card p-4 w-100 d-flex flex-column">
+                <div class="icon">🐶</div>
+                <h4 class="soft-title">Nutrition premium pour animaux</h4>
+                <p>
+                    Une sélection de produits alimentaires de haute qualité pour assurer une alimentation équilibrée et adaptée aux besoins des chiens de toutes races et âges.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4 d-flex">
+            <div class="card feature-card p-4 w-100 d-flex flex-column">
+                <div class="icon">🐱</div>
+                <h4 class="soft-title">Accessoires et confort</h4>
+                <p>
+                    Découvrez une gamme d’accessoires conçus pour améliorer le confort, le bien-être et la qualité de vie de vos chats au quotidien.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4 d-flex">
+            <div class="card feature-card p-4 w-100 d-flex flex-column">
+                <div class="icon">🛒</div>
+                <h4 class="soft-title">Achat rapide et sécurisé</h4>
+                <p>
+                    Profitez d’une expérience d’achat fluide avec une navigation intuitive, un paiement sécurisé et une livraison rapide adaptée à vos besoins.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-5 p-4 bg-white rounded-4 shadow-sm">
+        <h3 class="soft-title">À propos de SymPet</h3>
+        <p>
+            SymPet est une plateforme e-commerce spécialisée dans les produits pour animaux de compagnie.
+            Notre objectif est d’offrir une expérience utilisateur moderne et fiable, en proposant des produits soigneusement sélectionnés pour garantir la santé et le bien-être des animaux.
+        </p>
+    </div>
+
+</div>
+
+{% endblock %}
