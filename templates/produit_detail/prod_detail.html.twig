@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail Produit
+{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-5">
+
+		<div class="card shadow">
+			<div
+				class="row no-gutters">
+
+
+				<!--image-->
+
+				<div class="col-md-4 text-center p-3">
+					<img src="{{ produit.image }}" class="img-fluid rounded" alt="Produit">
+				</div>
+
+
+				<div class="col-md-8">
+					<div class="card-body">
+
+						<h3 class="card-title">{{ produit.NomProduit }}</h3>
+
+						<p class="card-text text-muted">
+							{{ produit.Description }}
+						</p>
+
+						<h4 class="text-primary">
+							{{ produit.Prix }}
+							DT
+						</h4>
+
+						<p>
+							<strong>Catégorie :</strong>
+							{{ produit.cat.nomCat }}
+						</p>
+
+
+						<p>
+							<strong>Disponibilité :</strong>
+
+							{% if produit.dispo %}
+								<span class="badge badge-success">Disponible</span>
+							{% else %}
+								<span class="badge badge-danger">Indisponible</span>
+							{% endif %}
+						</p>
+
+
+						<a href="{{ path('app_prods1') }}" class="btn btn-secondary">
+							⬅ Retour
+						</a>
+
+						<button class="btn btn-success">
+							Ajouter au panier
+						</button>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}

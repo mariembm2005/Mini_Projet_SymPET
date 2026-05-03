@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProduitsController!
+{% endblock %}
+
+{% block body %}
+	<table class="table">
+		<thead>
+			<th>Image</th>
+			<th>Nom</th>
+			<th>Prix</th>
+			<th colspan="2">Action</th>
+
+		</thead>
+		<tbody>
+			<tr>
+				{% for produit in produits %}
+					<td>
+						<img src="{{produit.image}}" alt="">
+
+					</td>
+					<td>
+						{{produit.NomProduit}}
+					</td>
+					<td>
+						{{produit.Prix}}
+					</td>
+					<td>
+						<a class="btn btn-primary" href="{{ url('app_produit_detail', {'id': produit.id}) }}">
+							Voir
+						</a>
+					</td>
+					<td>
+						<button type="button" class="btn btn-success">Ajouter au panier</button>
+					</td>
+				</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+{% endblock %}

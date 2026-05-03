@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier - SymPet
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<h1 class="mb-4">
+			<i class="fas fa-shopping-cart"></i>
+			Votre Panier
+		</h1>
+
+		{# Messages Flash #}
+		{% for label, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+					{{ message }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+				</div>
+			{% endfor %}
+		{% endfor %}
+
+		{% if paniers is empty %}
+			<div class="alert alert-warning">
+				Votre panier est actuellement vide.
+				<a href="{{ path('app_prods1') }}" class="alert-link">Découvrez nos produits ici.</a>
+			</div>
+		{% else %}
+
+			<div class="card shadow-sm">
+				<div class="card-body">
+
+					<table class="table table-hover">
+						<thead class="table-light">
+							<tr>
+								<th>Image</th>
+								<th>Produit</th>
+								<th>Prix</th>
+								<th>Quantité</th>
+								<th>Sous-total</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{% set totalGeneral = 0 %}
+
+							{% for ligne in paniers %}
+								{% set sousTotal = ligne.produit.prix * ligne.qte %}
+								{% set totalGeneral = totalGeneral + sousTotal %}
+
+								<tr class="align-middle">
+									<td>
+										<img src="{{ ligne.produit.image }}" alt="{{ ligne.produit.NomProduit }}" style="width:50px;height:50px;object-fit:cover;border-radius:5px;">
+									</td>
+
+									<td>
+										<strong>{{ ligne.produit.NomProduit }}</strong>
+									</td>
+
+									<td>{{ ligne.produit.prix }}
+										€</td>
+
+									<td>
+										<span class="badge bg-secondary p-2">
+											{{ ligne.qte }}
+										</span>
+									</td>
+
+									<td>{{ sousTotal }}
+										€</td>
+
+									<td>
+										<div
+											class="d-flex align-items-center">
+											{# Bouton Moins #}
+											<a href="{{ path('cart_modif', {id: ligne.id, action: 'moins'}) }}" class="btn btn-sm btn-outline-secondary">-</a>
+
+											<span class="mx-3 font-weight-bold">{{ ligne.qte }}</span>
+
+											{# Bouton Plus #}
+											<a href="{{ path('cart_modif', {id: ligne.id, action: 'plus'}) }}" class="btn btn-sm btn-outline-secondary">+</a>
+										</div>
+
+										<a href="{{ path('cart_supp', {'id': ligne.id}) }}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Supprimer ce produit ?');">
+											<i class="fas fa-trash"></i>
+											Supprimer
+										</a>
+									</td>
+								</tr>
+
+							{% endfor %}
+						</tbody>
+
+						<tfoot>
+							<tr class="table-dark">
+								<td colspan="4" class="text-end">
+									<strong>Total :</strong>
+								</td>
+								<td colspan="2">
+									<strong>{{ totalGeneral }}
+										€</strong>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+
+					<div class="d-flex justify-content-between mt-4">
+						<a href="{{ path('app_prods1') }}" class="btn btn-outline-primary">
+							<i class="fas fa-arrow-left"></i>
+							Continuer mes achats
+						</a>
+
+						<button class="btn btn-success btn-lg">
+							Valider ma commande
+							<i class="fas fa-check"></i>
+						</button>
+					</div>
+
+				</div>
+			</div>
+
+		{% endif %}
+	</div>
+{% endblock %}

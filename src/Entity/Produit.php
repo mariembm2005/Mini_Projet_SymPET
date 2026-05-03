@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,6 +39,20 @@ class Produit
 
     #[ORM\ManyToOne(inversedBy: 'produits')]
     private ?Categorie $cat = null;
+
+    #[ORM\Column]
+    private ?bool $dispo = null;
+
+    /**
+     * @var Collection<int, LignePanier>
+     */
+    #[ORM\OneToMany(targetEntity: LignePanier::class, mappedBy: 'produit')]
+    private Collection $lignePaniers;
+
+    public function __construct()
+    {
+        $this->lignePaniers = new ArrayCollection();
+    }
 
 
 
@@ -147,6 +163,48 @@ class Produit
     public function setCat(?Categorie $cat): static
     {
         $this->cat = $cat;
+
+        return $this;
+    }
+
+    public function isDispo(): ?bool
+    {
+        return $this->dispo;
+    }
+
+    public function setDispo(bool $dispo): static
+    {
+        $this->dispo = $dispo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LignePanier>
+     */
+    public function getLignePaniers(): Collection
+    {
+        return $this->lignePaniers;
+    }
+
+    public function addLignePanier(LignePanier $lignePanier): static
+    {
+        if (!$this->lignePaniers->contains($lignePanier)) {
+            $this->lignePaniers->add($lignePanier);
+            $lignePanier->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLignePanier(LignePanier $lignePanier): static
+    {
+        if ($this->lignePaniers->removeElement($lignePanier)) {
+            // set the owning side to null (unless already changed)
+            if ($lignePanier->getProduit() === $this) {
+                $lignePanier->setProduit(null);
+            }
+        }
 
         return $this;
     }
