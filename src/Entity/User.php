@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,7 +24,7 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -38,7 +40,7 @@ class User
     private ?\DateTime $dateInscription = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $role = null;
+    private ?string $role = 'ROLE_USER';
 
     /**
      * @var Collection<int, Commande>
@@ -50,6 +52,31 @@ class User
     {
         $this->commandes = new ArrayCollection();
     }
+
+    // =========================
+    // SYMFONY SECURITY REQUIRED
+    // =========================
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function getRoles(): array
+    {
+        return [$this->role];
+    }
+
+    public function getPassword(): string
+    {
+        return $this->mdp;
+    }
+
+    public function eraseCredentials(): void {}
+
+    // =========================
+    // GETTERS / SETTERS
+    // =========================
 
     public function getId(): ?int
     {
@@ -64,7 +91,6 @@ class User
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -76,7 +102,6 @@ class User
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
@@ -88,7 +113,6 @@ class User
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -100,7 +124,6 @@ class User
     public function setMdp(string $mdp): static
     {
         $this->mdp = $mdp;
-
         return $this;
     }
 
@@ -112,7 +135,6 @@ class User
     public function setTelephone(?int $telephone): static
     {
         $this->telephone = $telephone;
-
         return $this;
     }
 
@@ -124,7 +146,6 @@ class User
     public function setAdresse(string $adresse): static
     {
         $this->adresse = $adresse;
-
         return $this;
     }
 
@@ -136,7 +157,6 @@ class User
     public function setDateInscription(\DateTime $dateInscription): static
     {
         $this->dateInscription = $dateInscription;
-
         return $this;
     }
 
@@ -148,7 +168,6 @@ class User
     public function setRole(string $role): static
     {
         $this->role = $role;
-
         return $this;
     }
 
@@ -158,27 +177,5 @@ class User
     public function getCommandes(): Collection
     {
         return $this->commandes;
-    }
-
-    public function addCommande(Commande $commande): static
-    {
-        if (!$this->commandes->contains($commande)) {
-            $this->commandes->add($commande);
-            $commande->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(Commande $commande): static
-    {
-        if ($this->commandes->removeElement($commande)) {
-            // set the owning side to null (unless already changed)
-            if ($commande->getUser() === $this) {
-                $commande->setUser(null);
-            }
-        }
-
-        return $this;
     }
 }

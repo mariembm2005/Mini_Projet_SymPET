@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="auth-card">
+
+    <h2 class="soft-title">Vérification du code</h2>
+    <p>Entrez le code envoyé à votre email</p>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+
+        <div class="mb-3">
+            <input type="text" name="code" class="form-control" placeholder="Code de vérification">
+        </div>
+
+        <button class="btn btn-primary-custom text-white">
+            Vérifier
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

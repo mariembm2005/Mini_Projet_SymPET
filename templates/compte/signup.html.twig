@@ -51,26 +51,44 @@
     <h2 class="soft-title">Créer un compte</h2>
     <p>Rejoignez SymPet 🐾</p>
 
-    <form>
+    {# FORM SYMFONY (REMPLACE HTML STATIC UNIQUEMENT) #}
+    {{ form_start(form) }}
 
         <div class="mb-3">
             <label>Nom complet</label>
-            <input type="text" class="form-control" placeholder="Votre nom">
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Votre nom'}}) }}
+        </div>
+
+        <div class="mb-3">
+            <label>Prénom</label>
+            {{ form_widget(form.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Votre prénom'}}) }}
         </div>
 
         <div class="mb-3">
             <label>Email</label>
-            <input type="email" class="form-control" placeholder="exemple@email.com">
+            {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'exemple@email.com'}}) }}
         </div>
 
         <div class="mb-3">
             <label>Mot de passe</label>
-            <input type="password" class="form-control" placeholder="••••••••">
+            {{ form_widget(form.mdp, {'attr': {'class': 'form-control', 'placeholder': '••••••••'}}) }}
         </div>
 
-        <button class="btn btn-primary-custom text-white">S'inscrire</button>
+        <div class="mb-3">
+            <label>Adresse</label>
+            {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+        </div>
 
-    </form>
+        <div class="mb-3">
+            <label>Téléphone</label>
+            {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <button class="btn btn-primary-custom text-white">
+            S'inscrire
+        </button>
+
+    {{ form_end(form) }}
 
     <p class="mt-3">
         Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a>
