@@ -14,10 +14,18 @@ final class ProduitsController extends AbstractController
     #[Route('/prods', name: 'app_prods1')]
     public function affich(ProduitRepository $rep, PaginatorInterface $paginator, HttpFoundationRequest $request): Response
     {
-        $produits = $rep->findAll();
+        $produits = $paginator->paginate(
+            $rep->findAll(),
+
+            $request->query->getInt('page', 1),
+            6
+        );
+        $search = "";
+
 
         return $this->render('produits/prods.html.twig', [
             'produits' => $produits,
+            'search' => $search
         ]);
     }
 }

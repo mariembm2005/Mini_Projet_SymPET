@@ -1511,12 +1511,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     generate_final_classes?: bool|Param, // Default: true
  *     generate_final_entities?: bool|Param, // Default: false
  * }
-<<<<<<< HEAD
- * @psalm-type ConfigType = array{
- *     imports?: ImportsConfig,
- *     parameters?: ParametersConfig,
- *     services?: ServicesConfig,
-=======
  * @psalm-type MercureConfig = array{
  *     hubs?: array<string, array{ // Default: []
  *         url?: scalar|Param|null, // URL of the hub's publish endpoint
@@ -1564,7 +1558,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
  *     services?: ServicesConfig,
->>>>>>> 869bdd2 (Produits+Paniers)
  *     framework?: FrameworkConfig,
  *     doctrine?: DoctrineConfig,
  *     doctrine_migrations?: DoctrineMigrationsConfig,
@@ -1573,19 +1566,12 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     turbo?: TurboConfig,
  *     twig_extra?: TwigExtraConfig,
  *     security?: SecurityConfig,
-<<<<<<< HEAD
- *     monolog?: MonologConfig,
- *     "when@dev"?: array{
- *         imports?: ImportsConfig,
- *         parameters?: ParametersConfig,
-=======
  *     monolog?: MonologConfig,
  *     mercure?: MercureConfig,
  *     knp_paginator?: KnpPaginatorConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
->>>>>>> 869bdd2 (Produits+Paniers)
  *         services?: ServicesConfig,
  *         framework?: FrameworkConfig,
  *         doctrine?: DoctrineConfig,
@@ -1598,13 +1584,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         twig_extra?: TwigExtraConfig,
  *         security?: SecurityConfig,
  *         monolog?: MonologConfig,
-<<<<<<< HEAD
- *         maker?: MakerConfig,
- *     },
- *     "when@prod"?: array{
- *         imports?: ImportsConfig,
- *         parameters?: ParametersConfig,
-=======
  *         maker?: MakerConfig,
  *         mercure?: MercureConfig,
  *         knp_paginator?: KnpPaginatorConfig,
@@ -1612,7 +1591,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
->>>>>>> 869bdd2 (Produits+Paniers)
  *         services?: ServicesConfig,
  *         framework?: FrameworkConfig,
  *         doctrine?: DoctrineConfig,
@@ -1622,13 +1600,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         turbo?: TurboConfig,
  *         twig_extra?: TwigExtraConfig,
  *         security?: SecurityConfig,
-<<<<<<< HEAD
- *         monolog?: MonologConfig,
- *     },
- *     "when@test"?: array{
- *         imports?: ImportsConfig,
- *         parameters?: ParametersConfig,
-=======
  *         monolog?: MonologConfig,
  *         mercure?: MercureConfig,
  *         knp_paginator?: KnpPaginatorConfig,
@@ -1636,7 +1607,6 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
->>>>>>> 869bdd2 (Produits+Paniers)
  *         services?: ServicesConfig,
  *         framework?: FrameworkConfig,
  *         doctrine?: DoctrineConfig,
@@ -1647,13 +1617,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         turbo?: TurboConfig,
  *         twig_extra?: TwigExtraConfig,
  *         security?: SecurityConfig,
-<<<<<<< HEAD
- *         monolog?: MonologConfig,
-=======
  *         monolog?: MonologConfig,
  *         mercure?: MercureConfig,
  *         knp_paginator?: KnpPaginatorConfig,
->>>>>>> 869bdd2 (Produits+Paniers)
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,
@@ -1732,7 +1698,7 @@ namespace Symfony\Component\Routing\Loader\Configurator;
  * @psalm-type AliasConfig = array{
  *     alias: string,
  *     deprecated?: array{package:string, version:string, message?:string},
- * }
+ * }
  * @psalm-type RoutesConfig = array{
  *     "when@dev"?: array<string, RouteConfig|ImportConfig|AliasConfig>,
  *     "when@prod"?: array<string, RouteConfig|ImportConfig|AliasConfig>,

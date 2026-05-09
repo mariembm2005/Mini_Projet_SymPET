@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+{% block title %}Commande #{{ commande.id }}
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+
+		<a href="{{ path('app_commande_show') }}" class="btn btn-outline-secondary btn-sm mb-4">
+			<i class="fas fa-arrow-left me-2"></i>Retour à l'historique
+		</a>
+
+		<div class="card">
+			<div class="card-header d-flex justify-content-between">
+				<strong>Commande #{{ commande.id }}</strong>
+				<span class="badge bg-warning text-dark">{{ commande.statut }}</span>
+			</div>
+			<div class="card-body">
+				<div class="row g-3 mb-3">
+					<div class="col-6">
+						<small class="text-muted d-block">Date</small>
+						<strong>{{ commande.dateCommande|date('d/m/Y H:i') }}</strong>
+					</div>
+					<div class="col-6">
+						<small class="text-muted d-block">Total</small>
+						<strong>{{ commande.montantTotal }}
+							€</strong>
+					</div>
+				</div>
+
+				<h6 class="text-muted mb-3">Détail des articles</h6>
+
+				{% for ligne in commande.ligneCommandes %}
+					<div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+						<div class="d-flex align-items-center gap-3">
+							<img src="{{ ligne.produit.image }}" style="width:44px;height:44px;object-fit:cover;border-radius:8px;">
+							<div>
+								<strong>{{ ligne.produit.nomProduit }}</strong>
+								<div class="text-muted small">Qté :
+									{{ ligne.quantite }}</div>
+							</div>
+						</div>
+						<strong>{{ ligne.prixUnitaire * ligne.quantite }}
+							€</strong>
+					</div>
+				{% endfor %}
+
+				<div class="d-flex justify-content-between pt-3">
+					<strong>Total</strong>
+					<strong class="fs-5">{{ commande.montantTotal }}
+						€</strong>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

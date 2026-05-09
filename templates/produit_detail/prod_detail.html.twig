@@ -54,9 +54,15 @@
 							⬅ Retour
 						</a>
 
-						<button class="btn btn-success">
-							Ajouter au panier
-						</button>
+						{% if produit.dispo %}
+							<a href="{{ url('cart_add', {'id': produit.id}) }}" class="btn btn-success btn-sm">
+								Ajouter au panier
+							</a>
+						{% else %}
+							<button class="btn btn-secondary btn-sm" disabled>
+								Indisponible
+							</button>
+						{% endif %}
 
 					</div>
 				</div>

@@ -76,4 +76,16 @@ final class PanierController extends AbstractController
 
         return $this->redirectToRoute('cart_list');
     }
+
+    #[Route('/cart_supp_all/', name: 'cart_supp_all')]
+    public function cart_sup_all(LignePanierRepository $rep, EntityManagerInterface $em)
+    {
+        $lignes = $rep->findAll();
+        foreach ($lignes as $l) {
+            $em->remove($l);
+        }
+
+        $em->flush();
+        return $this->redirectToRoute('cart_list');
+    }
 }

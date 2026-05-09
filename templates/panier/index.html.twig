@@ -20,13 +20,17 @@
 			{% endfor %}
 		{% endfor %}
 
-		{% if paniers is empty %}
+		{% if paniers is not defined or paniers is empty %}
 			<div class="alert alert-warning">
 				Votre panier est actuellement vide.
-				<a href="{{ path('app_prods1') }}" class="alert-link">Découvrez nos produits ici.</a>
-			</div>
-		{% else %}
+				<a href="{{ path('app_prods1') }}" class="alert-link">Découvrez nos produits ici</a><br>
+				<a href="{{ path('app_commande_show') }}" class="alert-link">ou voir la liste des commandes</a>
 
+			</div>
+
+
+		{% else %}
+			<a href="{{url('cart_supp_all')}}" class="btn btn-outline-danger btn-sm">Vider le panier</a><br><br>
 			<div class="card shadow-sm">
 				<div class="card-body">
 
@@ -111,10 +115,10 @@
 							Continuer mes achats
 						</a>
 
-						<button class="btn btn-success btn-lg">
+						<a class="btn btn-success btn-lg" href="{{url('app_commande')}}">
 							Valider ma commande
 							<i class="fas fa-check"></i>
-						</button>
+						</a>
 					</div>
 
 				</div>
