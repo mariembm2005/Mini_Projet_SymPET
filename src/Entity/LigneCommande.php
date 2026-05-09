@@ -22,7 +22,7 @@ class LigneCommande
     #[ORM\ManyToOne(inversedBy: 'ligneCommandes')]
     private ?Commande $commande = null;
 
-    #[ORM\OneToOne(inversedBy: 'ligneCommande', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'ligneCommande', cascade: ['persist', 'remove'])]
     private ?Produit $produit = null;
 
     public function getId(): ?int

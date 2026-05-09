@@ -58,7 +58,7 @@ final class CommandeController extends AbstractController
         $em->flush();
 
 
-        return $this->redirectToRoute('cart_list');
+        return $this->redirectToRoute('app_paiement_stripe', ['id' => $commande->getId()]);
     }
 
     #[Route('/commande/lis/', name: 'app_commande_show')]

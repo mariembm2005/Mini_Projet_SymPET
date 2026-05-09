@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				color: #333;
+			}
+			.container {
+				max-width: 600px;
+				margin: auto;
+				padding: 20px;
+			}
+			.header {
+				background: #198754;
+				color: white;
+				padding: 20px;
+				border-radius: 8px 8px 0 0;
+			}
+			.card {
+				border: 1px solid #ddd;
+				border-radius: 8px;
+				padding: 20px;
+				margin-top: 20px;
+			}
+			.row {
+				display: flex;
+				justify-content: space-between;
+				padding: 8px 0;
+				border-bottom: 1px solid #eee;
+			}
+			.total {
+				font-size: 18px;
+				font-weight: bold;
+				margin-top: 10px;
+				text-align: right;
+			}
+			.badge {
+				background: #ffc107;
+				color: #333;
+				padding: 4px 10px;
+				border-radius: 4px;
+				font-size: 12px;
+			}
+			.footer {
+				text-align: center;
+				color: #aaa;
+				font-size: 12px;
+				margin-top: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+
+			<div class="header">
+				<h2 style="margin:0;">✅ Commande confirmée !</h2>
+				<p style="margin:4px 0 0;">Merci pour votre achat sur SymPet</p>
+			</div>
+
+			<div class="card">
+				<p>
+					<strong>Numéro de commande :</strong>
+					#{{ commande.id }}</p>
+				<p>
+					<strong>Date :</strong>
+					{{ commande.dateCommande|date('d/m/Y H:i') }}</p>
+				<p>
+					<strong>Statut :</strong>
+					<span class="badge">{{ commande.statut }}</span>
+				</p>
+			</div>
+
+			<div class="card">
+				<h3 style="margin-top:0;">Détail des articles</h3>
+
+				{% for ligne in commande.ligneCommandes %}
+					<div class="row">
+						<span>{{ ligne.produit.nomProduit }}
+							×
+							{{ ligne.quantite }}</span>
+						<span>{{ ligne.prixUnitaire * ligne.quantite }}
+							€</span>
+					</div>
+				{% endfor %}
+
+				<div class="total">
+					Total :
+					{{ commande.montantTotal }}
+					€
+				</div>
+			</div>
+
+			<div class="footer">
+				<p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+				<p>© SymPet
+					{{ "now"|date("Y") }}</p>
+			</div>
+
+		</div>
+	</body>
+</html>
