@@ -1,25 +1,256 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>
-			{% block title %}Welcome!
+			{% block title %}SymPet
 			{% endblock %}
-		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-		{% block stylesheets %}
-			<link rel="stylesheet" href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css')}}">
-		{% endblock %}
+			— SymPet</title>
 
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+		<style>:root
+		{
+			--sage: #7a9e7e;
+			--sage-light: #f0f5f1;
+			--cream: #faf8f4;
+			--charcoal: #2c2c2c;
+			--muted: #888;
+			--accent: #d4845a;
+			--border: #e8e3dc;
+		}
+
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: 'DM Sans', sans-serif;
+			background: var(--cream);
+			color: var(--charcoal);
+			font-size: 15px;
+			line-height: 1.7;
+		}
+
+		/* ── Navbar ── */
+		.navbar-sympet {
+			background: rgba(250, 248, 244, 0.95);
+			backdrop-filter: blur(12px);
+			border-bottom: 1px solid var(--border);
+			padding: 0 2.5rem;
+			height: 68px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			position: sticky;
+			top: 0;
+			z-index: 100;
+		}
+
+		.navbar-brand-sympet {
+			font-family: 'Playfair Display', serif;
+			font-size: 1.5rem;
+			font-weight: 600;
+			color: var(--charcoal);
+			text-decoration: none;
+			letter-spacing: -0.5px;
+		}
+
+		.navbar-brand-sympet span {
+			color: var(--sage);
+		}
+
+		.nav-links {
+			display: flex;
+			align-items: center;
+			gap: 2rem;
+			list-style: none;
+		}
+
+		.nav-links a {
+			color: var(--muted);
+			text-decoration: none;
+			font-size: 14px;
+			font-weight: 500;
+			letter-spacing: 0.3px;
+			transition: color 0.2s;
+		}
+
+		.nav-links a:hover {
+			color: var(--charcoal);
+		}
+
+		.nav-links a.active {
+			color: var(--charcoal);
+		}
+
+		.nav-cart {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			background: var(--charcoal);
+			color: white !important;
+			padding: 8px 18px;
+			border-radius: 100px;
+			font-size: 13px !important;
+			transition: background 0.2s !important;
+		}
+
+		.nav-cart:hover {
+			background: var(--sage) !important;
+			color: white !important;
+		}
+
+		/* ── Flash messages ── */
+		.flash-wrapper {
+			padding: 0.75rem 2.5rem;
+			background: var(--sage-light);
+			border-bottom: 1px solid var(--border);
+		}
+
+		.flash-wrapper .alert {
+			margin: 0;
+			border-radius: 8px;
+			font-size: 14px;
+			border: none;
+		}
+
+		/* ── Main content ── */
+		.main-content {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 3rem 2rem;
+		}
+
+		/* ── Footer ── */
+		.footer-sympet {
+			background: var(--charcoal);
+			color: rgba(255, 255, 255, 0.5);
+			text-align: center;
+			padding: 2rem;
+			font-size: 13px;
+			margin-top: 6rem;
+		}
+
+		.footer-sympet strong {
+			color: white;
+			font-family: 'Playfair Display', serif;
+		}
+
+		/* ── Buttons ── */
+		.btn-primary {
+			background: var(--charcoal);
+			border: none;
+			border-radius: 100px;
+			padding: 10px 24px;
+			font-size: 14px;
+			font-weight: 500;
+			transition: background 0.2s;
+		}
+
+		.btn-primary:hover {
+			background: var(--sage);
+		}
+
+		.btn-outline-primary {
+			border-color: var(--charcoal);
+			color: var(--charcoal);
+			border-radius: 100px;
+			padding: 10px 24px;
+			font-size: 14px;
+		}
+
+		.btn-outline-primary:hover {
+			background: var(--charcoal);
+			color: white;
+		}
+
+		.btn-success {
+			background: var(--sage);
+			border: none;
+			border-radius: 100px;
+			padding: 10px 24px;
+		}
+
+		.btn-success:hover {
+			background: #5f8564;
+		}
+
+		/* ── Cards ── */
+		.card {
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			background: white;
+			box-shadow: none;
+		}
+
+		.card-header {
+			background: transparent;
+			border-bottom: 1px solid var(--border);
+			padding: 1.25rem 1.5rem;
+		}
+
+		/* ── Badges ── */
+		.badge {
+			font-weight: 500;
+			letter-spacing: 0.3px;
+			padding: 5px 12px;
+			border-radius: 100px;
+		}
+
+		/* ── Page title style ── */
+		h1,
+		h2,
+		h3,
+		h4 {
+			font-family: 'Playfair Display', serif;
+			font-weight: 600;
+			letter-spacing: -0.3px;
+		}
+	</style>
+
+	{% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+
+	{# ── Navbar ── #}
+	{% include "_navbar.html.twig" %}
+
+	{# ── Flash messages ── #}
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="flash-wrapper">
+				<div class="alert alert-{{ label }}">
+					{{ message|raw }}
+				</div>
+			</div>
+		{% endfor %}
+	{% endfor %}
+
+	{# ── Page content ── #}
+	<div class="main-content"> {% block body %}{% endblock %}
+		</div>
+
+		{# ── Footer ── #}
+		<footer class="footer-sympet">
+			<strong>SymPet</strong>
+			&nbsp;·&nbsp; ©
+			{{ "now"|date("Y") }}
+			&nbsp;·&nbsp; Tous droits réservés
+		</footer>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 		{% block javascripts %}
 			{% block importmap %}{% endblock %}
 		{% endblock %}
-	</head>
 
-	<body>
-		{% include ('_navbar.html.twig') %}
-		<div class="m-5"> {% block body %}{% endblock %}
-			</div>
-		</body>
-	</html>
+	</body>
+</html>

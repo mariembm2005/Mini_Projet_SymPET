@@ -2,34 +2,44 @@
 
 {% block title %}Produits
 {% endblock %}
+
 {% block stylesheets %}
-	{{parent()}}
+	{{ parent() }}
 	<style>
-		/* ===== PAGE ANIMATION ===== */
-		.row .col-md-4 {
-			opacity: 0;
-			transform: translateY(30px);
-			animation: fadeUp 0.6s ease forwards;
+		.product-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+			gap: 1.5rem;
 		}
 
-		/* delay for each card (stagger effect) */
-		.row .col-md-4:nth-child(1) {
-			animation-delay: 0.1s;
+		.product-card {
+			background: white;
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			overflow: hidden;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			opacity: 0;
+			transform: translateY(24px);
+			animation: fadeUp 0.5s ease forwards;
 		}
-		.row .col-md-4:nth-child(2) {
-			animation-delay: 0.2s;
+
+		.product-card:nth-child(1) {
+			animation-delay: 0.05s;
 		}
-		.row .col-md-4:nth-child(3) {
-			animation-delay: 0.3s;
+		.product-card:nth-child(2) {
+			animation-delay: 0.10s;
 		}
-		.row .col-md-4:nth-child(4) {
-			animation-delay: 0.4s;
+		.product-card:nth-child(3) {
+			animation-delay: 0.15s;
 		}
-		.row .col-md-4:nth-child(5) {
-			animation-delay: 0.5s;
+		.product-card:nth-child(4) {
+			animation-delay: 0.20s;
 		}
-		.row .col-md-4:nth-child(6) {
-			animation-delay: 0.6s;
+		.product-card:nth-child(5) {
+			animation-delay: 0.25s;
+		}
+		.product-card:nth-child(6) {
+			animation-delay: 0.30s;
 		}
 
 		@keyframes fadeUp {
@@ -39,96 +49,199 @@
 			}
 		}
 
-		.card {
-			border-radius: 12px;
+		.product-card:hover {
+			transform: translateY(-6px);
+			box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+		}
+
+		.product-img-wrap {
 			overflow: hidden;
-			transition: all 0.3s ease;
+			height: 200px;
+			background: var(--sage-light);
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
-
-		.card:hover {
-			transform: translateY(-10px);
-			box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-		}
-
-
-		.card img {
+		.product-img-wrap img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
 			transition: transform 0.4s ease;
+			padding: 1rem;
 		}
 
-		.card:hover img {
-			transform: scale(1.08);
+		.product-card:hover .product-img-wrap img {
+			transform: scale(1.06);
 		}
 
-
-		.btn {
-			transition: all 0.3s ease;
+		.product-body {
+			padding: 1.25rem;
 		}
 
-		.btn:hover {
-			transform: scale(1.05);
+		.product-name {
+			font-family: 'Playfair Display', serif;
+			font-size: 1rem;
+			font-weight: 600;
+			margin-bottom: 4px;
+			color: var(--charcoal);
 		}
-		.text-truncate {
+
+		.product-desc {
+			font-size: 13px;
+			color: var(--muted);
 			display: -webkit-box;
 			-webkit-line-clamp: 2;
 			-webkit-box-orient: vertical;
 			overflow: hidden;
+			margin-bottom: 10px;
+		}
+
+		.product-price {
+			font-size: 1.1rem;
+			font-weight: 600;
+			color: var(--sage);
+		}
+
+		.product-footer {
+			padding: 1rem 1.25rem;
+			border-top: 1px solid var(--border);
+			display: flex;
+			gap: 8px;
+		}
+
+		.btn-see {
+			flex: 1;
+			padding: 8px;
+			border: 1px solid var(--border);
+			border-radius: 100px;
+			background: white;
+			font-size: 13px;
+			text-align: center;
+			text-decoration: none;
+			color: var(--charcoal);
+			transition: all 0.2s;
+		}
+
+		.btn-see:hover {
+			background: var(--charcoal);
+			color: white;
+			border-color: var(--charcoal);
+		}
+
+		.btn-add {
+			flex: 1;
+			padding: 8px;
+			border: none;
+			border-radius: 100px;
+			background: var(--sage);
+			color: white;
+			font-size: 13px;
+			text-align: center;
+			text-decoration: none;
+			transition: background 0.2s;
+		}
+
+		.btn-add:hover {
+			background: #5f8564;
+			color: white;
+		}
+
+		.btn-disabled {
+			flex: 1;
+			padding: 8px;
+			border-radius: 100px;
+			background: var(--sage-light);
+			color: var(--muted);
+			font-size: 13px;
+			text-align: center;
+			border: none;
+			cursor: not-allowed;
+		}
+
+		.page-heading {
+			display: flex;
+			align-items: baseline;
+			gap: 12px;
+			margin-bottom: 2rem;
+		}
+
+		.page-heading h2 {
+			font-size: 1.8rem;
+			margin: 0;
+		}
+
+		.page-heading span {
+			font-size: 13px;
+			color: var(--muted);
+		}
+
+		.pagination {
+			justify-content: center;
+			margin-top: 2.5rem;
+		}
+		.page-link {
+			border-radius: 100px !important;
+			margin: 0 3px;
+			border-color: var(--border);
+			color: var(--charcoal);
+		}
+		.page-item.active .page-link {
+			background: var(--charcoal);
+			border-color: var(--charcoal);
 		}
 	</style>
 {% endblock %}
 
 {% block body %}
 
-	{% for message in app.flashes('success') %}
-		<div class="alert alert-success">
-			{{ message }}
-		</div>
-	{% endfor %}
-
-	{% if search %}
-		<h2 class="mb-4">Nos Produits de
-			{{search}}
+	<div class="page-heading">
+		<h2>
+			{% if search %}Résultats pour "{{ search }}"{% else %}Nos Produits
+			{% endif %}
 		</h2>
-	{% else %}
-		<h2 class="mb-4">Nos Produits</h2>
-	{% endif %}
-	<div class="row">
-		{% for produit in produits %}
-			<div class="col-md-4 mb-4">
-				<div class="card h-100 shadow-sm">
-					<img src="{{ produit.image }}" class="card-img-top d-flex justify-content-center align-items-center vh-100" style="width:100%; height:200px; object-fit:contain;" alt="">
-					<div class="card-body">
-						<h5 class="card-title">{{ produit.NomProduit }}</h5>
-						<p class="card-text text-success fw-bold">
-							{{ produit.Prix }}
-							DT
-						</p>
-						<p class="text-truncate">
-							{{produit.Description}}
-						</p>
-					</div>
-					<div class="card-footer text-center">
-						<a class="btn btn-primary btn-sm" href="{{ url('app_produit_detail', {'id': produit.id}) }}">
-							Voir
-						</a>
-						{% if produit.dispo %}
-							<a href="{{ url('cart_add', {'id': produit.id}) }}" class="btn btn-success btn-sm">
-								Ajouter au panier
-							</a>
-						{% else %}
-							<button class="btn btn-secondary btn-sm" disabled>
-								Indisponible
-							</button>
-						{% endif %}
-					</div>
-				</div>
-			</div>
-		{% endfor %}
-
+		<span>{{ produits|length }}
+			article(s)</span>
 	</div>
+
+	<div class="product-grid">
+		{% for produit in produits %}
+			<div class="product-card">
+
+				<div class="product-img-wrap">
+					<img src="{{ produit.image }}" alt="{{ produit.NomProduit }}">
+				</div>
+
+				<div class="product-body">
+					<p class="product-name">{{ produit.NomProduit }}</p>
+					<p class="product-desc">{{ produit.Description }}</p>
+					<p class="product-price">{{ produit.Prix }}
+						DT</p>
+				</div>
+
+				<div class="product-footer">
+					<a href="{{ url('app_produit_detail', {'id': produit.id}) }}" class="btn-see">
+						<i class="fas fa-eye me-1"></i>
+						Voir
+					</a>
+					{% if produit.dispo %}
+						<a href="{{ url('cart_add', {'id': produit.id}) }}" class="btn-add">
+							<i class="fas fa-basket-shopping me-1"></i>
+							Ajouter
+						</a>
+					{% else %}
+						<button class="btn-disabled" disabled>Indisponible</button>
+					{% endif %}
+				</div>
+
+			</div>
+		{% else %}
+			<p style="color:var(--muted);">Aucun produit trouvé.</p>
+		{% endfor %}
+	</div>
+
 	<div class="navigation">
 		{{ knp_pagination_render(produits) }}
-
 	</div>
 
 {% endblock %}
