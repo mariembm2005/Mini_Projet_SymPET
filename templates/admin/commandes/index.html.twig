@@ -1,0 +1,75 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Commandes{% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="page-title mb-0">🛒 Gestion des commandes</h2>
+</div>
+
+<!-- Filtres par statut -->
+<div class="mb-3 d-flex gap-2">
+    <a href="{{ path('app_admin_commandes') }}"
+       class="btn btn-sm {{ statut == '' ? 'btn-grad' : 'btn-outline-secondary' }}">
+        Toutes
+    </a>
+    <a href="{{ path('app_admin_commandes', {statut: 'en_attente'}) }}"
+       class="btn btn-sm {{ statut == 'en_attente' ? 'btn-grad' : 'btn-outline-secondary' }}">
+        En attente
+    </a>
+    <a href="{{ path('app_admin_commandes', {statut: 'en_cours'}) }}"
+       class="btn btn-sm {{ statut == 'en_cours' ? 'btn-grad' : 'btn-outline-secondary' }}">
+        En cours
+    </a>
+    <a href="{{ path('app_admin_commandes', {statut: 'completee'}) }}"
+       class="btn btn-sm {{ statut == 'completee' ? 'btn-grad' : 'btn-outline-secondary' }}">
+        Complétées
+    </a>
+</div>
+
+<div class="card-admin p-3">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Client</th>
+                <th>Date</th>
+                <th>Statut</th>
+                <th>Montant</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for commande in commandes %}
+            <tr>
+                <td>{{ commande.id }}</td>
+                <td>
+                    {% if commande.user %}
+                        {{ commande.user.prenom }} {{ commande.user.nom }}
+                    {% else %}
+                        <span class="text-muted">—</span>
+                    {% endif %}
+                </td>
+                <td>{{ commande.dateCommande|date('d/m/Y') }}</td>
+                <td>
+                    <span class="badge badge-statut-{{ commande.statut }} px-3 py-2 rounded-pill">
+                        {{ commande.statut|replace({'_': ' '})|capitalize }}
+                    </span>
+                </td>
+                <td>{{ commande.montantTotal|number_format(2, ',', ' ') }} TND</td>
+                <td>
+                    <a href="{{ path('app_admin_commande_detail', {id: commande.id}) }}"
+                       class="btn btn-sm btn-outline-secondary">👁️ Détail</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center text-muted py-4">Aucune commande trouvée.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}{{ categorie ? 'Modifier' : 'Nouvelle' }} catégorie{% endblock %}
+
+{% block body %}
+
+<div class="d-flex align-items-center mb-4">
+    <a href="{{ path('app_admin_categories') }}" class="btn btn-sm btn-outline-secondary me-3">← Retour</a>
+    <h2 class="page-title mb-0">
+        {{ categorie ? '✏️ Modifier la catégorie' : '➕ Nouvelle catégorie' }}
+    </h2>
+</div>
+
+<div class="card-admin p-4" style="max-width: 500px;">
+    <form method="POST">
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Nom de la catégorie</label>
+            <input type="text" name="nomCat" class="form-control"
+                   value="{{ categorie ? categorie.nomCat : '' }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Description</label>
+            <textarea name="description" class="form-control" rows="3">{{ categorie ? categorie.description : '' }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-grad">
+            {{ categorie ? 'Enregistrer les modifications' : 'Ajouter la catégorie' }}
+        </button>
+
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Commande #{{ commande.id }}{% endblock %}
+
+{% block body %}
+
+<div class="d-flex align-items-center mb-4">
+    <a href="{{ path('app_admin_commandes') }}" class="btn btn-sm btn-outline-secondary me-3">← Retour</a>
+    <h2 class="page-title mb-0">🛒 Commande #{{ commande.id }}</h2>
+</div>
+
+<div class="row g-3">
+
+    <!-- Infos commande -->
+    <div class="col-md-5">
+        <div class="card-admin p-4">
+            <h5 class="fw-bold mb-3" style="color:#3b2f63;">Informations</h5>
+            <table class="table table-borderless mb-0">
+                <tr>
+                    <td class="text-muted">Date</td>
+                    <td>{{ commande.dateCommande|date('d/m/Y') }}</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">Statut</td>
+                    <td>
+                        <span class="badge badge-statut-{{ commande.statut }} px-3 py-2 rounded-pill">
+                            {{ commande.statut|replace({'_': ' '})|capitalize }}
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-muted">Montant total</td>
+                    <td class="fw-bold">{{ commande.montantTotal|number_format(2, ',', ' ') }} TND</td>
+                </tr>
+                {% if commande.user %}
+                <tr>
+                    <td class="text-muted">Client</td>
+                    <td>{{ commande.user.prenom }} {{ commande.user.nom }}</td>
+                </tr>
+                <tr>
+                    <td class="text-muted">Email</td>
+                    <td>{{ commande.user.email }}</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+
+    <!-- Lignes de commande -->
+    <div class="col-md-7">
+        <div class="card-admin p-4">
+            <h5 class="fw-bold mb-3" style="color:#3b2f63;">Produits commandés</h5>
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire</th>
+                        <th>Sous-total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ligne in commande.ligneCommandes %}
+                    <tr>
+                        <td>{{ ligne.produit ? ligne.produit.nomProduit : '—' }}</td>
+                        <td>{{ ligne.quantite }}</td>
+                        <td>{{ ligne.prixUnitaire|number_format(2, ',', ' ') }} TND</td>
+                        <td>{{ (ligne.quantite * ligne.prixUnitaire)|number_format(2, ',', ' ') }} TND</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-muted text-center">Aucune ligne.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

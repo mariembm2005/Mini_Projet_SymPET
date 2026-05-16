@@ -1,0 +1,59 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Modifier l'utilisateur{% endblock %}
+
+{% block body %}
+
+<div class="d-flex align-items-center mb-4">
+    <a href="{{ path('app_admin_utilisateurs') }}" class="btn btn-sm btn-outline-secondary me-3">← Retour</a>
+    <h2 class="page-title mb-0">✏️ Modifier l'utilisateur</h2>
+</div>
+
+<div class="card-admin p-4" style="max-width: 560px;">
+    <form method="POST">
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">Nom</label>
+                <input type="text" name="nom" class="form-control" value="{{ user.nom }}" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-semibold">Prénom</label>
+                <input type="text" name="prenom" class="form-control" value="{{ user.prenom }}" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Email</label>
+            <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Adresse</label>
+            <input type="text" name="adresse" class="form-control" value="{{ user.adresse }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Téléphone</label>
+            <input type="number" name="telephone" class="form-control" value="{{ user.telephone }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Rôle</label>
+            <select name="role" class="form-select">
+                <option value="ROLE_USER" {{ user.role == 'ROLE_USER' ? 'selected' : '' }}>Client</option>
+                <option value="ROLE_ADMIN" {{ user.role == 'ROLE_ADMIN' ? 'selected' : '' }}>Administrateur</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Nouveau mot de passe <span class="text-muted fw-normal">(laisser vide pour ne pas changer)</span></label>
+            <input type="password" name="password" class="form-control" placeholder="••••••••">
+        </div>
+
+        <button type="submit" class="btn btn-grad">Enregistrer les modifications</button>
+
+    </form>
+</div>
+
+{% endblock %}

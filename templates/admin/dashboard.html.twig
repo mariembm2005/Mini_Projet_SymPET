@@ -1,0 +1,151 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+
+<h2 class="page-title">📊 Tableau de bord</h2>
+
+<!-- Indicateurs clés -->
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <div class="card-admin p-4 text-center">
+            <div style="font-size:2rem;">📦</div>
+            <div class="fs-2 fw-bold" style="color:#a78bfa;">{{ totalProduits }}</div>
+            <div class="text-muted">Produits</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-admin p-4 text-center">
+            <div style="font-size:2rem;">🏷️</div>
+            <div class="fs-2 fw-bold" style="color:#ff6fae;">{{ totalCategories }}</div>
+            <div class="text-muted">Catégories</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-admin p-4 text-center">
+            <div style="font-size:2rem;">👥</div>
+            <div class="fs-2 fw-bold" style="color:#34d399;">{{ totalUsers }}</div>
+            <div class="text-muted">Clients</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card-admin p-4 text-center">
+            <div style="font-size:2rem;">💰</div>
+            <div class="fs-2 fw-bold" style="color:#f59e0b;">{{ ca }} TND</div>
+            <div class="text-muted">Chiffre d'affaires</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Graphiques -->
+<div class="row g-3 mb-4">
+
+    <!-- Commandes par statut -->
+    <div class="col-md-5">
+        <div class="card-admin p-4">
+            <h5 class="fw-bold mb-3" style="color:#3b2f63;">Commandes par statut</h5>
+            <canvas id="chartStatut" height="220"></canvas>
+        </div>
+    </div>
+
+    <!-- Commandes par mois -->
+    <div class="col-md-7">
+        <div class="card-admin p-4">
+            <h5 class="fw-bold mb-3" style="color:#3b2f63;">Nombre de commandes par période</h5>
+            <canvas id="chartMois" height="220"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<!-- Produit le plus vendu -->
+<div class="card-admin p-4">
+    <h5 class="fw-bold mb-3" style="color:#3b2f63;">🏆 Produits les plus vendus</h5>
+    {% if ventesParProduit is empty %}
+        <p class="text-muted">Aucune donnée disponible.</p>
+    {% else %}
+        <canvas id="chartTopProduits" height="120"></canvas>
+    {% endif %}
+</div>
+
+<script>
+// Graphique 1 : Commandes par statut (Doughnut)
+new Chart(document.getElementById('chartStatut'), {
+    type: 'doughnut',
+    TNDta: {
+        labels: ['En attente', 'En cours', 'Complétées'],
+        TNDtasets: [{
+            TNDta: [{{ enAttente }}, {{ enCours }}, {{ completees }}],
+            backgroundColor: ['#f59e0b', '#a78bfa', '#34d399'],
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { position: 'bottom' }
+        }
+    }
+});
+
+// Graphique 2 : Commandes par mois (Bar)
+{% set moisLabels = commandesParMois|keys %}
+{% set moisData = [] %}
+{% for val in commandesParMois %}
+    {% set moisData = moisData|merge([val]) %}
+{% endfor %}
+new Chart(document.getElementById('chartMois'), {
+    type: 'bar',
+    TNDta: {
+        labels: {{ moisLabels|json_encode|raw }},
+        TNDtasets: [{
+            label: 'Nombre de commandes',
+            TNDta: {{ moisData|json_encode|raw }},
+            backgroundColor: 'rgba(167, 139, 250, 0.6)',
+            borderColor: '#a78bfa',
+            borderWidth: 2,
+            borderRadius: 8,
+        }]
+    },
+    options: {
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+// Graphique 3 : Produits les plus vendus (Bar horizontal)
+{% if ventesParProduit is not empty %}
+{% set prodLabels = ventesParProduit|keys %}
+{% set prodData = [] %}
+{% for val in ventesParProduit %}
+    {% set prodData = prodData|merge([val]) %}
+{% endfor %}
+new Chart(document.getElementById('chartTopProduits'), {
+    type: 'bar',
+    TNDta: {
+        labels: {{ prodLabels|json_encode|raw }},
+        TNDtasets: [{
+            label: 'Quantité vendue',
+            TNDta: {{ prodData|json_encode|raw }},
+            backgroundColor: 'rgba(255, 111, 174, 0.6)',
+            borderColor: '#ff6fae',
+            borderWidth: 2,
+            borderRadius: 8,
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        scales: {
+            x: { beginAtZero: true }
+        }
+    }
+});
+{% endif %}
+</script>
+
+{% endblock %}

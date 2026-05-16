@@ -1,0 +1,58 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="page-title mb-0">👥 Gestion des utilisateurs</h2>
+</div>
+
+<div class="card-admin p-3">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom complet</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Rôle</th>
+                <th>Inscription</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.prenom }} {{ user.nom }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.telephone ?? '—' }}</td>
+                <td>
+                    <span class="badge {{ user.role == 'ROLE_ADMIN' ? 'bg-danger' : 'bg-secondary' }}">
+                        {{ user.role == 'ROLE_ADMIN' ? 'Admin' : 'Client' }}
+                    </span>
+                </td>
+                <td>{{ user.dateInscription ? user.dateInscription|date('d/m/Y') : '—' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_utilisateur_modifier', {id: user.id}) }}"
+                       class="btn btn-sm btn-outline-secondary me-1">✏️ Modifier</a>
+
+                    <form method="POST"
+                          action="{{ path('app_admin_utilisateur_supprimer', {id: user.id}) }}"
+                          style="display:inline;"
+                          onsubmit="return confirm('Supprimer cet utilisateur ?')">
+                        <button class="btn btn-sm btn-outline-danger">🗑️ Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7" class="text-center text-muted py-4">Aucun utilisateur trouvé.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

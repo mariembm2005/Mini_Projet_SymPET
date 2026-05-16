@@ -42,9 +42,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $role = 'ROLE_USER';
 
-    /**
-     * @var Collection<int, Commande>
-     */
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'user')]
     private Collection $commandes;
 
@@ -52,10 +49,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->commandes = new ArrayCollection();
     }
-
-    // =========================
-    // SYMFONY SECURITY REQUIRED
-    // =========================
 
     public function getUserIdentifier(): string
     {
@@ -74,108 +67,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void {}
 
-    // =========================
-    // GETTERS / SETTERS
-    // =========================
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
+    public function getNom(): ?string { return $this->nom; }
+    public function setNom(string $nom): static { $this->nom = $nom; return $this; }
 
-    public function setNom(string $nom): static
-    {
-        $this->nom = $nom;
-        return $this;
-    }
+    public function getPrenom(): ?string { return $this->prenom; }
+    public function setPrenom(string $prenom): static { $this->prenom = $prenom; return $this; }
 
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
+    public function getEmail(): ?string { return $this->email; }
+    public function setEmail(string $email): static { $this->email = $email; return $this; }
 
-    public function setPrenom(string $prenom): static
-    {
-        $this->prenom = $prenom;
-        return $this;
-    }
+    public function getMdp(): ?string { return $this->mdp; }
+    public function setMdp(string $mdp): static { $this->mdp = $mdp; return $this; }
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
+    public function getTelephone(): ?int { return $this->telephone; }
+    public function setTelephone(?int $telephone): static { $this->telephone = $telephone; return $this; }
 
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-        return $this;
-    }
+    public function getAdresse(): ?string { return $this->adresse; }
+    public function setAdresse(string $adresse): static { $this->adresse = $adresse; return $this; }
 
-    public function getMdp(): ?string
-    {
-        return $this->mdp;
-    }
+    public function getDateInscription(): ?\DateTime { return $this->dateInscription; }
+    public function setDateInscription(\DateTime $dateInscription): static { $this->dateInscription = $dateInscription; return $this; }
 
-    public function setMdp(string $mdp): static
-    {
-        $this->mdp = $mdp;
-        return $this;
-    }
+    public function getRole(): ?string { return $this->role; }
+    public function setRole(string $role): static { $this->role = $role; return $this; }
 
-    public function getTelephone(): ?int
-    {
-        return $this->telephone;
-    }
-
-    public function setTelephone(?int $telephone): static
-    {
-        $this->telephone = $telephone;
-        return $this;
-    }
-
-    public function getAdresse(): ?string
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(string $adresse): static
-    {
-        $this->adresse = $adresse;
-        return $this;
-    }
-
-    public function getDateInscription(): ?\DateTime
-    {
-        return $this->dateInscription;
-    }
-
-    public function setDateInscription(\DateTime $dateInscription): static
-    {
-        $this->dateInscription = $dateInscription;
-        return $this;
-    }
-
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function setRole(string $role): static
-    {
-        $this->role = $role;
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Commande>
-     */
     public function getCommandes(): Collection
     {
         return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            if ($commande->getUser() === $this) {
+                $commande->setUser(null);
+            }
+        }
+        return $this;
+    }
+
+    public function getPanier(): ?object
+    {
+        return null;
+    }
+
+    public function setPanier(?object $panier): static
+    {
+        return $this;
     }
 }

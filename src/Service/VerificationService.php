@@ -12,7 +12,8 @@ class VerificationService
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private MailerInterface $mailer
+        private MailerInterface $mailer,
+        private string $mailerFrom = 'siwarsiwar2870@gmail.com'
     ) {}
 
     public function sendCode(string $email, string $type): string
@@ -29,7 +30,7 @@ class VerificationService
     $this->em->flush();
 
     $emailMessage = (new Email())
-        ->from('siwarsiwar2870@gmail.com')
+        ->from($this->mailerFrom)
         ->to($email)
         ->subject('Verification Code')
         ->text("Votre code est : $code");
