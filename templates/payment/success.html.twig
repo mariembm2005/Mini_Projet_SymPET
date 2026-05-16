@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande confirmée
+{% endblock %}
+
+{% block body %}
+
+	<div style="text-align:center; padding: 50px;">
+
+		<h1>✅ Paiement réussi !</h1>
+
+		<p>Merci</p>
+		<p>Merci
+			<strong>{{ commande.user ? commande.user.email : '' }}</strong>
+			pour votre commande.</p>
+		pour votre commande.</p>
+
+	<div style="border: 1px solid #ccc; padding: 20px; display:inline-block; margin: 20px;">
+		<p>Numéro de commande :
+			<strong>#{{ commande.id }}</strong>
+		</p>
+		<p>Date :
+			{{ commande.dateCommande|date('d/m/Y') }}</p>
+		<p>Statut :
+			<strong>{{ commande.statut }}</strong>
+		</p>
+		<p>Total :
+			<strong>{{ commande.montantTotal }}
+				€</strong>
+		</p>
+	</div>
+
+	<p>📧 Un email de confirmation a été envoyé à</p>
+	<p>Merci
+		<strong>{{ commande.user ? commande.user.email : '' }}</strong>
+		pour votre commande.</p>
+</p>
+
+<a href="{{ path('app_commande_detail', {id: commande.id}) }}">
+	Voir le détail de ma commande
+</a></div>{% endblock %}

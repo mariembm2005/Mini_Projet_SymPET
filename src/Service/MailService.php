@@ -14,7 +14,7 @@ class MailService
         private Environment $twig,
     ) {}
 
-    public function sendOrderConfirmation(Commande $commande): void
+    public function sendOrderConfirmation(Commande $commande, MailerInterface $mailer): void
     {
         $html = $this->twig->render('emails/order_confirmation.html.twig', [
             'commande' => $commande,
@@ -26,6 +26,6 @@ class MailService
             ->subject('Confirmation de votre commande #' . $commande->getId())
             ->html($html);
 
-        $this->mailer->send($email);
+        $mailer->send($email);
     }
 }

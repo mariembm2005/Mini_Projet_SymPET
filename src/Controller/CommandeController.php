@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Commande;
 use App\Entity\LigneCommande;
+use App\Mailer\OrderMailer;
 use App\Entity\Panier;
 use App\Repository\CommandeRepository;
 use App\Repository\LigneCommandeRepository;
@@ -12,6 +13,7 @@ use App\Repository\PanierRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class CommandeController extends AbstractController
@@ -30,6 +32,7 @@ final class CommandeController extends AbstractController
         $commande
             ->setDateCommande(new \DateTime())
             ->setStatut('En attente')
+            ->setUser($this->getUser())
             ->setMontantTotal(0);
 
         $em->persist($commande);
@@ -85,5 +88,16 @@ final class CommandeController extends AbstractController
         return $this->render('commande/show.html.twig', [
             'commande' => $commande,
         ]);
+    }
+
+
+    public function confirmer(Commande $commande, EntityManagerInterface $em, OrderMailer $mailer, MailerInterface $m): Response
+    {
+        $commande->setStatut('confirmée');
+        $em->flush();
+
+        $mailer->sendConfirmation($commande);
+
+        return $this->redirectToRoute('app_commande_show', ['id' => $commande->getId()]);
     }
 }

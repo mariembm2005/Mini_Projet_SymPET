@@ -1,0 +1,34 @@
+<h2>Merci pour votre commande !</h2>
+
+<p>Numéro de commande :
+	<strong>#{{ commande.id }}</strong>
+</p>
+<p>Date :
+	{{ commande.dateCommande|date('d/m/Y') }}</p>
+<p>Statut :
+	{{ commande.statut }}</p>
+
+<table border="1" cellpadding="8">
+	<tr>
+		<th>Produit</th>
+		<th>Quantité</th>
+		<th>Prix unitaire</th>
+	</tr>
+	{% for ligne in commande.ligneCommandes %}
+		<tr>
+			<td>{{ ligne.produit.nomProduit }}</td>
+			<td>{{ ligne.quantite }}</td>
+			<td>{{ ligne.prixUnitaire }}
+				€</td>
+		</tr>
+	{% endfor %}
+	<tr>
+		<td colspan="2">
+			<strong>Total</strong>
+		</td>
+		<td>
+			<strong>{{ commande.montantTotal }}
+				€</strong>
+		</td>
+	</tr>
+</table>
